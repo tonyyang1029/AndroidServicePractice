@@ -29,6 +29,7 @@ public class HelloService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Toast.makeText(this, "I'm about to stop!", Toast.LENGTH_LONG).show();
+        mBinder = null;
     }
 
     class HelloBinder extends Binder {

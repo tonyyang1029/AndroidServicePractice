@@ -32,6 +32,12 @@ public class Hello2Service extends Service {
         return mBinder;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBinder = null;
+    }
+
     class Hello2Binder extends Binder {
         private Context mCtxt;
 

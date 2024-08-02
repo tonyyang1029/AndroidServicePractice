@@ -20,6 +20,12 @@ public class CalculateService extends Service {
         return mBinder;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBinder = null;
+    }
+
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }

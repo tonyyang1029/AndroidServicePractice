@@ -75,11 +75,17 @@ public class AsyncCalculateService extends Service {
         return mBinder;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+        mBinder = null;
+        mListeners = null;
+    }
+
     private class CalculateHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            //super.handleMessage(msg);
-            //
             switch (msg.what) {
                 case MSG_ADD:
                     for (ICalculateResultListener listener : mListeners) {

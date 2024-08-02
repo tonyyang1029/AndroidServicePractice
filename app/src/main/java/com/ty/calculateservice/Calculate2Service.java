@@ -45,4 +45,10 @@ public class Calculate2Service extends Service {
         Toast.makeText(this, "A client is connected to service", Toast.LENGTH_SHORT).show();
         return mICalcuate;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mICalcuate = null;
+    }
 }
