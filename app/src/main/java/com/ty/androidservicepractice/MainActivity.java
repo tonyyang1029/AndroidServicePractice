@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnP4;
     private Button mBtnP5;
     private Button mBtnP6;
+    private Button mBtnP7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnP5.setOnClickListener(this);
         mBtnP6 = findViewById(R.id.main_btn_p6);
         mBtnP6.setOnClickListener(this);
+        mBtnP7 = findViewById(R.id.main_btn_p7);
+        mBtnP7.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, P5_BindCalculate2ServiceActivity.class));
         } else if (v.getId() == R.id.main_btn_p6) {
             startActivity(new Intent(this, P6_BindAsyncCalculateServiceActivity.class));
+        } else if (v.getId() == R.id.main_btn_p7) {
+            startActivity(new Intent(this, P7_BindCalculateServiceLibActivity.class));
         }
     }
 }
