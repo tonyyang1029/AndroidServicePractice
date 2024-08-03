@@ -105,6 +105,8 @@ public class P5_BindCalculate2ServiceActivity extends AppCompatActivity implemen
     protected void onDestroy() {
         super.onDestroy();
         unbind();
+        mSrvConnection = null;
+        mSrvDeath = null;
     }
 
     @Override
@@ -156,8 +158,8 @@ public class P5_BindCalculate2ServiceActivity extends AppCompatActivity implemen
 
     private void unbind() {
         if (mICalcuate != null) {
-            unbindService(mSrvConnection);
             mICalcuate.asBinder().unlinkToDeath(mSrvDeath, 0);
+            unbindService(mSrvConnection);
             mICalcuate = null;
         }
     }

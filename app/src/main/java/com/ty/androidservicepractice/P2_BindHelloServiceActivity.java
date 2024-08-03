@@ -77,6 +77,8 @@ public class P2_BindHelloServiceActivity extends AppCompatActivity implements Vi
     protected void onDestroy() {
         super.onDestroy();
         unbind();
+        mServiceConnection = null;
+        mDeath = null;
     }
 
     @Override
@@ -104,8 +106,8 @@ public class P2_BindHelloServiceActivity extends AppCompatActivity implements Vi
 
     private void unbind() {
         if (mBinder != null) {
-            unbindService(mServiceConnection);
             mBinder.unlinkToDeath(mDeath, 0);
+            unbindService(mServiceConnection);
             mBinder = null;
         }
     }

@@ -78,6 +78,8 @@ public class P3_BindHello2ServiceActivity extends AppCompatActivity implements V
     protected void onDestroy() {
         super.onDestroy();
         unbind();
+        mSrvConn = null;
+        mDeathRecipient = null;
     }
 
     @Override
@@ -105,8 +107,8 @@ public class P3_BindHello2ServiceActivity extends AppCompatActivity implements V
 
     private void unbind() {
         if (mService != null) {
-            unbindService(mSrvConn);
             mService.unlinkToDeath(mDeathRecipient, 0);
+            unbindService(mSrvConn);
             mService = null;
         }
     }

@@ -95,6 +95,8 @@ public class P4_BindCalculateServiceActivity extends AppCompatActivity implement
     protected void onDestroy() {
         super.onDestroy();
         unbind();
+        mSrvConnection = null;
+        mSrvDeath = null;
     }
 
     @Override
@@ -130,8 +132,8 @@ public class P4_BindCalculateServiceActivity extends AppCompatActivity implement
 
     private void unbind() {
         if (mService != null) {
-            unbindService(mSrvConnection);
             mService.unlinkToDeath(mSrvDeath, 0);
+            unbindService(mSrvConnection);
             mService = null;
         }
     }

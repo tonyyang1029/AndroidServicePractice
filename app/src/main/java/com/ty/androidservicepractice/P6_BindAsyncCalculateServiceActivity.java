@@ -128,6 +128,8 @@ public class P6_BindAsyncCalculateServiceActivity extends AppCompatActivity impl
     protected void onDestroy() {
         super.onDestroy();
         unbind();
+        mServiceConnection = null;
+        mDeathRecipient = null;
     }
 
     @Override
@@ -196,8 +198,8 @@ public class P6_BindAsyncCalculateServiceActivity extends AppCompatActivity impl
                 mInfo.append("Cannot unregister listener \n");
             }
             mService.asBinder().unlinkToDeath(mDeathRecipient, 0);
-            mService = null;
             unbindService(mServiceConnection);
+            mService = null;
         }
     }
 }
