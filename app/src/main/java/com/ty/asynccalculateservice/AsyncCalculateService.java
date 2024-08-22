@@ -4,8 +4,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
 
 import com.ty.calculateservice.ICalculate;
 
@@ -29,7 +32,7 @@ public class AsyncCalculateService extends Service {
     public void onCreate() {
         super.onCreate();
         //
-        mHandler = new CalculateHandler();
+        mHandler = new CalculateHandler(this.getMainLooper());
         //
         mListeners = new ArrayList<>();
         //
@@ -84,6 +87,10 @@ public class AsyncCalculateService extends Service {
     }
 
     private class CalculateHandler extends Handler {
+        public CalculateHandler(@NonNull Looper looper) {
+            super(looper);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {

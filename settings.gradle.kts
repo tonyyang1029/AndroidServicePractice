@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidServicePractice"
 include(":app")
 include(":calculateservicelib")
+include(":clientpro")
+include(":clientpro2")

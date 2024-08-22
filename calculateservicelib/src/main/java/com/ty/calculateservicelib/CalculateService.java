@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ public class CalculateService extends Service {
     private ArrayList<IResultListener> mListeners;
     private CalculateHandler mHandler;
     private ICalculate.Stub mBinder;
+    //
+    private String mServiceName;
 
     public CalculateService() {
     }
@@ -31,7 +34,7 @@ public class CalculateService extends Service {
         //
         mListeners = new ArrayList<>();
         //
-        mHandler = new CalculateHandler();
+        mHandler = createCalculateHandler();
         //
         mBinder = new ICalculate.Stub() {
             @Override
@@ -75,12 +78,35 @@ public class CalculateService extends Service {
                 msg.arg2 = b;
                 mHandler.sendMessage(msg);
             }
+
+            @Override
+            public String getName() throws RemoteException {
+                return mServiceName;
+            }
         };
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        Toast.makeText(this, "Service is ready to calculate the client's input", Toast.LENGTH_SHORT).show();
+        String client_name = null;
+        String service_name = null;
+
+        if (intent.hasExtra("client_name")) {
+            client_name = intent.getStringExtra("client_name");
+        }
+        if (intent.hasExtra("service_name")) {
+            service_name = intent.getStringExtra("service_name");
+        }
+        if (mServiceName == null) {
+            mServiceName = service_name;
+        }
+
+        if (client_name != null && service_name != null) {
+            Toast.makeText(this, client_name + " is bound to " + service_name, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "A client is bound to service", Toast.LENGTH_LONG).show();
+        }
+
         return mBinder;
     }
 
@@ -91,9 +117,18 @@ public class CalculateService extends Service {
         mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
         mBinder = null;
+        mServiceName = null;
+    }
+
+    private CalculateHandler createCalculateHandler() {
+        return new CalculateHandler(this.getMainLooper());
     }
 
     private class CalculateHandler extends Handler {
+        public CalculateHandler(@NonNull Looper looper) {
+            super(looper);
+        }
+
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
